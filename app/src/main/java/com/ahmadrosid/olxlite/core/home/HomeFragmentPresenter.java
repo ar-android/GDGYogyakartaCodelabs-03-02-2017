@@ -39,13 +39,7 @@ public class HomeFragmentPresenter extends BasePresenter<ViewHome> {
     }
 
     public void loadCommonIklan() {
-        getMvpView().startLoading();
-        getSubscraiber().add(
-                getIklan()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onResponse, this::onError)
-        );
+        
     }
 
     private void onResponse(String json) {
@@ -55,23 +49,7 @@ public class HomeFragmentPresenter extends BasePresenter<ViewHome> {
     }
 
     private void parseData(String json) {
-        data.clear();
-        JSONObject jobject = null;
-        try {
-            jobject = new JSONObject(json);
-            if (jobject.names().length() == 0) {
-                getMvpView().showMessage("Belumada iklan.");
-            } else {
-                for (int i = 0; i < jobject.names().length(); i++) {
-                    String value = jobject.get(jobject.names().getString(i)).toString();
-                    IklanModel iklanData = getParser().fromJson(value, IklanModel.class);
-                    data.add(iklanData);
-                    setAdapter();
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        
     }
 
     private void setAdapter() {

@@ -39,47 +39,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void loadConfig() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(activity.getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(activity)
-                .enableAutoManage(activity, connectionResult -> {
-                    Log.d(TAG, "loadConfig: google play services error.");
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user != null) {
-                mvpView.successLogin();
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-            } else {
-                Log.d(TAG, "onAuthStateChanged:signed_out");
-            }
-        };
-
-        mAuth.addAuthStateListener(mAuthListener);
+        
     }
 
     public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        showProgressDialog();
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(activity, task -> {
-                    Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "signInWithCredential", task.getException());
-                    }
-                    hideProgressDialog();
-                });
+        
     }
 
     private void showProgressDialog() {
@@ -91,8 +55,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        mvpView.startResult(signInIntent, RC_SIGN_IN);
+        
     }
 
     @Override public void detachView() {

@@ -31,17 +31,6 @@ public class DetailIklanActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setOnBackToolbar();
 
-        try {
-            IklanModel data = getIntent().getParcelableExtra("data");
-            String[] mImage = data.getUrl_image().split(",");
-            Glide.with(this).load(mImage[0]).centerCrop().into(img);
-            judul.setText(data.getJudul());
-            harga.setText(CurrencyHelper.format(data.getHarga()));
-            description.setText(data.getDescription());
-            getSupportActionBar().setTitle(data.getJudul());
-        }catch (Exception e){
-            FirebaseCrash.logcat(Log.DEBUG, "Error set data detail.", e.getMessage());
-        }
     }
 
 }

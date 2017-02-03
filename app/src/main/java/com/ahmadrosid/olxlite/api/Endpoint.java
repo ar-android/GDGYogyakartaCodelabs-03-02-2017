@@ -12,8 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class Endpoint {
     private static String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    public static final String MAIN_URL = "https://olxlite-422b0.firebaseio.com/";
-    private static final String AUTH = "?auth=04MTOPRRZwGhomCRQ8arKG9MxFzgL9F9eTfjFHbb";
+    public static final String MAIN_URL = "";
+    private static final String AUTH = "";
     public static final String IKLAN = MAIN_URL + "iklan.json" + AUTH;
     public static final String IKLAN_SAYA = MAIN_URL + "users/iklan/" + uid + ".json" + AUTH;
 }

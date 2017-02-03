@@ -21,12 +21,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void checkAuth() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            open(HomeActivity.class);
-        } else {
-            open(LoginActivity.class);
-        }
+        
     }
 
     @Override protected void onStop() {
