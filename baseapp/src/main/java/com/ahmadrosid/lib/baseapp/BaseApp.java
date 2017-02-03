@@ -16,9 +16,11 @@
 
 package com.ahmadrosid.lib.baseapp;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
+
 
 /**
  * Created by ocittwo on 1/8/17.
@@ -30,6 +32,7 @@ import android.os.StrictMode;
  */
 public class BaseApp {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     public static void init(Application application) {

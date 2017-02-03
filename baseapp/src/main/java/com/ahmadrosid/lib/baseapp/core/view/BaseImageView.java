@@ -36,7 +36,6 @@ import com.bumptech.glide.request.target.Target;
  * @Github https://github.com/ar-android
  * @Web http://ahmadrosid.com
  */
-
 public class BaseImageView extends ImageView{
     private String imageUrl;
 

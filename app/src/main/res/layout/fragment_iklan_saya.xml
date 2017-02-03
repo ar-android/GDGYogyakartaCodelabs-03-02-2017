@@ -9,15 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/loader"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
-
         <TextView
             android:id="@+id/empty"
             android:layout_width="wrap_content"
@@ -29,10 +20,26 @@
             android:textSize="20dp"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_iklan_saya"
+        <ProgressBar
+            android:id="@+id/loader"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="visible"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content">
+
+            <com.ahmadrosid.lib.baseapp.core.view.BaseRecyclerView
+                android:id="@+id/list_iklan_saya"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -40,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         app:fabSize="normal"
+        android:id="@+id/add_new_iklan"
         app:useCompatPadding="true"
         android:src="@drawable/ic_add"/>
 

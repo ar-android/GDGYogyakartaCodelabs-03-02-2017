@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_marginBottom="40dp"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="Selamat datang di \nOLXLite Silahkan Login Untuk Melanjutnkan"
+            android:textAlignment="center"
+            android:layout_marginBottom="100dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/signin_google"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_google"
+            android:text="@string/signin_with_google"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_register"
+            android:text="@string/register"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="20dp"
+        android:text="GDG Jogja Codelabs"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+</android.support.design.widget.CoordinatorLayout>

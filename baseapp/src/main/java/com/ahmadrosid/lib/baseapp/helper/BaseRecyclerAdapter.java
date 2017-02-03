@@ -33,14 +33,14 @@ import java.util.List;
  * @Github https://github.com/ar-android
  * @Web http://ahmadrosid.com
  */
-public abstract class RecyclerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     protected int mLayout;
     private Class<VH> mViewHolderClass;
     private Class<T> mModelClass;
     private List<T> mData;
 
-    public RecyclerAdapter(List<T> mData, Class<T> mModelClass, int mLayout, Class<VH> mViewHolderClass) {
+    public BaseRecyclerAdapter(List<T> mData, Class<T> mModelClass, int mLayout, Class<VH> mViewHolderClass) {
         this.mLayout = mLayout;
         this.mViewHolderClass = mViewHolderClass;
         this.mModelClass = mModelClass;

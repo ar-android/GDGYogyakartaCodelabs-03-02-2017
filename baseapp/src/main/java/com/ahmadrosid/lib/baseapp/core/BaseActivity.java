@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
  * @Github https://github.com/ar-android
  * @Web http://ahmadrosid.com
  */
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";
 
@@ -47,41 +48,44 @@ public abstract class BaseActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         onViewReady(savedInstanceState);
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
     }
 
     protected abstract int getResourceLayout();
 
     protected abstract void onViewReady(Bundle savedInstanceState);
 
-    public void setToolbar(int toolbarResId){
+    public void setToolbar(int toolbarResId) {
         try {
             Toolbar toolbar = (Toolbar) findViewById(toolbarResId);
             setSupportActionBar(toolbar);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "setToolbar: ", e);
         }
     }
 
-    protected void showLoading(){
-        if (!progressDialog.isShowing()){
+    protected void showLoading() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        } else {
             progressDialog.show();
         }
     }
 
-    protected void hideLoading(){
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
+    protected void hideLoading() {
+        progressDialog.dismiss();
     }
 
-    public void setActiveFragment(BaseFragment fragment, int containerRes){
+    public void setActiveFragment(BaseFragment fragment, int containerRes) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerRes, fragment)
                 .commit();
     }
 
-    public void setActiveFragmentBackstack(BaseFragment fragment, int containerRes){
+    public void setActiveFragmentBackstack(BaseFragment fragment, int containerRes) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerRes, fragment)
@@ -89,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity{
                 .commit();
     }
 
-    public void alert(String message){
+    public void alert(String message) {
         new AlertDialog.Builder(this)
                 .setTitle("Message")
                 .setMessage(message)
@@ -98,8 +102,18 @@ public abstract class BaseActivity extends AppCompatActivity{
                 }).show();
     }
 
-    public void open(Class clazz){
+    public void open(Class clazz) {
         startActivity(new Intent(this, clazz));
     }
 
+    public void setOnBackToolbar() {
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

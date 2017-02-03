@@ -13,6 +13,8 @@ import com.ahmadrosid.lib.baseapp.core.BaseActivity;
 import com.ahmadrosid.olxlite.R;
 import com.ahmadrosid.olxlite.core.profile.ProfileFragment;
 import com.ahmadrosid.olxlite.core.iklan_saya.IklanSayaFragment;
+import com.ahmadrosid.olxlite.core.welcome.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by ocittwo on 1/29/17.
@@ -42,8 +44,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null)
-            setActiveFragment(new HomeFragment(), R.id.container);
+        setActiveFragment(new HomeFragment(), R.id.container);
     }
 
     @Override
@@ -66,8 +67,10 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-
+        if (id == R.id.action_logout) {
+            FirebaseAuth.getInstance().signOut();
+            open(LoginActivity.class);
+            finish();
         } else if (id == R.id.action_settings) {
             return true;
         }

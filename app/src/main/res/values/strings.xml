@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OlxLite</string>
+    <string name="app_name">OLXLite</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,4 +8,28 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="iklan_saya">Iklan Saya</string>
+
+    <string name="facebook_app_id">463636230691620</string>
+    <string name="fb_login_protocol_scheme">fb189953571452011</string>
+    <string name="signin_with_google">LOGIN WITH GOOGLE</string>
+    <string name="signin_with_facebook">LOGIN WITH FACEBOOK</string>
+    <string name="register">REGISTER</string>
+    <string name="title_activity_detail_iklan">DetailIklanActivity</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile
+
+        "Avoiding elevation interference.\n\n""
+    </string>
+    <string name="upload_foto">Upload Foto</string>
+    <string name="description_add_photo">Menampilkan lebih dari foto barang menimbulkan kepercaan lebih bagi calon pembeli dan meningkatkan kesempatan barang terjual</string>
+    <string name="judul">Judul</string>
+    <string name="pasang_iklan">Pasang Iklan</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="harga">Harga</string>
+    <string name="action_logout">Logout</string>
+
 </resources>

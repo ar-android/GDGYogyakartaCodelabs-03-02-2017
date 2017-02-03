@@ -47,14 +47,14 @@ public abstract class BaseFragment extends Fragment{
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(getResourceLayout(), container, false);
-        progressDialog = new ProgressDialog(getContext());
-        return view;
+        return inflater.inflate(getResourceLayout(), container, false);
     }
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressDialog = new ProgressDialog(getContext());
         ButterKnife.bind(this, view);
+        onViewReady(savedInstanceState);
     }
 
     protected abstract int getResourceLayout();

@@ -13,10 +13,8 @@ import com.ahmadrosid.lib.baseapp.BaseApp;
  * @Web http://ahmadrosid.com
  */
 public class OlxLite extends Application{
-
     @Override public void onCreate() {
         super.onCreate();
         BaseApp.init(this);
     }
-
 }

@@ -27,7 +27,5 @@ package com.ahmadrosid.lib.baseapp.core;
 
 public interface Presenter<V extends BaseView> {
 
-    void attachView(V mvpView);
-
     void detachView();
 }

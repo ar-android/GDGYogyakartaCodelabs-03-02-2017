@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "395570307954",
+    "firebase_url": "https://olxlite-422b0.firebaseio.com",
+    "project_id": "olxlite-422b0",
+    "storage_bucket": "olxlite-422b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395570307954:android:e638fa6b9cad5ba6",
+        "android_client_info": {
+          "package_name": "com.ahmadrosid.olxlite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395570307954-b41m29hoo92tljrodg22db086052hpi4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmadrosid.olxlite",
+            "certificate_hash": "4A842D89BECA5CB3444A15214CB18EEC86142AC9"
+          }
+        },
+        {
+          "client_id": "395570307954-2jpbjvu2t86879m2oj01nt9g37rr32jg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM7vHXyrm-0XwC2BzWhU8NT-ni2FlGFcs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395570307954-2jpbjvu2t86879m2oj01nt9g37rr32jg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

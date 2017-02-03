@@ -26,9 +26,6 @@ package com.ahmadrosid.lib.baseapp.core;
  */
 
 public interface BaseView {
-
-    void showLoading();
-
-    void hideLoading();
-
+    void startLoading();
+    void stopLoading();
 }

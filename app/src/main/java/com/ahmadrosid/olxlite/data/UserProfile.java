@@ -1,7 +1,6 @@
 package com.ahmadrosid.olxlite.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.ahmadrosid.lib.baseapp.data.PreferencesManager;
 
 /**
  * Created by ocittwo on 1/29/17.
@@ -11,43 +10,63 @@ import android.os.Parcelable;
  * @Github https://github.com/ar-android
  * @Web http://ahmadrosid.com
  */
-public class UserProfile implements Parcelable{
+public class UserProfile{
+
+    private static UserProfile instance;
 
     public String name;
     public String email;
     public String photo;
+    public String accessToken;
+    public boolean loginWith;
 
-    public UserProfile(String name, String email, String photo) {
+    public static UserProfile getInstance() {
+        if (instance == null)
+            instance = new UserProfile();
+        return instance;
+    }
+
+    public static final void login(String data){
+        PreferencesManager.saveString(OlxLiteConstants.LOGIN_CACHE, data);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    protected UserProfile(Parcel in) {
-        name = in.readString();
-        email = in.readString();
-        photo = in.readString();
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public static final Creator<UserProfile> CREATOR = new Creator<UserProfile>() {
-        @Override
-        public UserProfile createFromParcel(Parcel in) {
-            return new UserProfile(in);
-        }
-
-        @Override
-        public UserProfile[] newArray(int size) {
-            return new UserProfile[size];
-        }
-    };
-
-    @Override public int describeContents() {
-        return 0;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    @Override public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(email);
-        parcel.writeString(photo);
+    public boolean isLoginWith() {
+        return loginWith;
+    }
+
+    public void setLoginWith(boolean loginWith) {
+        this.loginWith = loginWith;
     }
 }

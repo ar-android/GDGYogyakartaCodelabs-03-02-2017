@@ -36,7 +36,7 @@ public class NetworkHelper {
     public static int TYPE_NOT_CONNECTED = 0;
 
     public static boolean isConnected(Context context){
-        return getConnectivityStatus(context) == TYPE_NOT_CONNECTED;
+        return getConnectivityStatus(context) != TYPE_NOT_CONNECTED;
     }
 
     private static int getConnectivityStatus(Context context) {

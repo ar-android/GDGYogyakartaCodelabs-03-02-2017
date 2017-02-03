@@ -16,6 +16,16 @@
 
 package com.ahmadrosid.lib.baseapp.core;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.DateTypeAdapter;
+
+import java.security.SecureRandom;
+import java.util.Date;
+
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * Created by ocittwo on 1/8/17.
  *
@@ -27,16 +37,30 @@ package com.ahmadrosid.lib.baseapp.core;
 
 public class BasePresenter<T extends BaseView> implements Presenter<T> {
 
-    private T mvpView;
+    public T mvpView;
+    private static Gson gson;
+    private CompositeSubscription subscription = new CompositeSubscription();
 
-    @Override
-    public void attachView(T mvpView) {
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static SecureRandom rnd = new SecureRandom();
+
+    public BasePresenter(T mvpView) {
         this.mvpView = mvpView;
+        gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .setPrettyPrinting()
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .create();
+    }
+
+    public CompositeSubscription getSubscraiber() {
+        return subscription;
     }
 
     @Override
     public void detachView() {
         mvpView = null;
+        subscription.unsubscribe();
     }
 
     public boolean isViewAttached() {
@@ -47,8 +71,20 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
         return mvpView;
     }
 
+    public static Gson getParser() {
+        return gson;
+    }
+
     public void checkViewAttached() {
         if (!isViewAttached()) throw new MvpViewNotAttachedException();
+    }
+
+    public String randomString(){
+        int len = 30;
+        StringBuilder sb = new StringBuilder( len );
+        for( int i = 0; i < len; i++ )
+            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+        return sb.toString();
     }
 
     public static class MvpViewNotAttachedException extends RuntimeException {
