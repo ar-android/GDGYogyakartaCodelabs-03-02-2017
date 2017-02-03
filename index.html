@@ -1,1108 +1,355 @@
-
 <!doctype html>
 
 <html>
+
 <head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <meta name="theme-color" content="#4F7DC9">
-  <meta charset="UTF-8">
-  <title>GDG Joga Android Codelab</title>
-  <script src="webcomponents-lite.min.js"></script>
-  <link rel="import" href="codelab.html">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
-  <style>
-    body {
-      font-family: "Roboto",sans-serif;
-    }
-  </style>
-  
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#4F7DC9">
+    <meta charset="UTF-8">
+    <title>GDG Joga Android Codelab</title>
+    <script src="webcomponents-lite.min.js"></script>
+    <link rel="import" href="codelab.html">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+    </style>
+
 </head>
+
 <body unresolved class="fullbleed">
 
-  <google-codelab title="GDG Joga Android Codelab"
-                  environment="web"
-                  feedback-link="https://github.com/firebase/friendlychat/issues">
-    
-      <google-codelab-step label="Overview" duration="2">
-        <p><img style="max-width: 201.00px" src="img/7f167669e8544e03.png"></p>
-<p>Image: Working Friendly Chat app.</p>
-<p>Welcome to the GDG Jogja codelab. In this codelab, you&#39;ll learn how to use the Firebase platform to create a simple marketplace app using firebase. In this case we will try to build app like <a href="https://olx.co.id">OLX</a> Android Apps using firebase. </p>
-<h3>What you learn to do</h3>
-<ul>
-<li>Allow users to sign in.</li>
-<li>Sync data using the Firebase Realtime Database.</li>
-<li>Receive background messages with Firebase Notifications.</li>
-<li>Configure an application with Firebase Remote Config.</li>
-<li>Track application usage flows with Firebase Analytics.</li>
-<li>Allow users to send invitations to install with Firebase Invites.</li>
-<li>Display ads with AdMob.</li>
-<li>Report crashes with Firebase Crash Reporting.</li>
-<li>Test your app with Firebase Test Lab.</li>
-</ul>
-<h3>What you need</h3>
-<ul>
-<li><a href="https://developer.android.com/sdk/installing/studio.html" target="_blank">Android Studio</a> version 2.1+.</li>
-<li>Sample code.</li>
-<li>A test device with Android 2.3+ and Google Play services 9.8 or later, or an Emulator with Google Play services 9.8 or later</li>
-<li><a href="https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox" target="_blank">Google app</a> version 6.6+ (only needed for testing Firebase App Indexing in Step 9)</li>
-<li>If using a device connection cable.</li>
-</ul>
-<p>After gathering the needed items, <a href="https://firebase.google.com/docs/android/setup" target="_blank">set up your environment</a>.</p>
+    <google-codelab title="GDG Joga Android Codelab" environment="web" feedback-link="https://github.com/firebase/friendlychat/issues">
 
+        <google-codelab-step label="Overview" duration="2">
+            <p><img style="max-width: 201.00px" src="img/olxlite.png"><span>  </span><img style="max-width: 201.00px" src="img/olxlite_1.png"><span>  </span><img style="max-width: 201.00px" src="img/olxlite_2.png"></p>
+            <p>Image: OLXLite Android app.</p>
+            <p>Selamat datang di GDG Jogja codelab. Pada codelab kali ini anda akan belajar membuat aplikasi marketplace sederhana seperti <a href="https://olx.co.id">OLX</a> Android menggunakan Firebase. </p>
+            <h3>Apa yang akan kamu pelajari?</h3>
+            <ul>
+                <li>Login user dengan google plus</li>
+                <li>Menampilkan data iklan dari Firebase Database.</li>
+                <li>Menambahkan iklan ke database firebase.</li>
+                <li>Upload gambar ke firebase storage.</li>
+                <li>Mengimplentasikan firebase REST Api.</li>
+                <li>Menangkap error aplikasi menggunakan Firebase Creash Reporting.</li>
+            </ul>
+            <h3>Apa yang kamu butuhkan untuk mengikuti codelab ini.</h3>
+            <ul>
+                <li><a href="https://developer.android.com/sdk/installing/studio.html" target="_blank">Android Studio</a> version 2.1+.</li>
+                <li>Sample code.</li>
+                <li>Device Android dengan versi 2.3+ dan Google Play services 9.8 atau lebih, atau sebuah Emulator dengan Google Play services 9.8 atau lebih</li>
+                <li><a href="https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox" target="_blank">Google app</a> </li>
+                <li>Jika kamu menggunakan device android kamu perlu USB Cable.</li>
+            </ul>
+            <p>Setelah memnuhi sarat di atas selanjutnya, <a href="https://firebase.google.com/docs/android/setup" target="_blank">Setup configurasi Laptop atau komputer kamu.</a>.</p>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Get the sample code" duration="5">
-        <p>Clone the GitHub repository from the command line:</p>
-<pre>$ git clone https://github.com/firebase/friendlychat</pre>
-<aside class="special"><p>The &#34;friendly&#34; repository contains many sample projects. This codelab only uses two:</p>
-<ul>
-<li><img style="max-width: 20.00px" src="img/bb745dc85ae69f6b.png"><strong>android-start</strong>—Starting code that you build upon in this codelab.</li>
-<li><img style="max-width: 20.00px" src="img/bb745dc85ae69f6b.png"><strong>android</strong>—Completed code for the finished sample app.</li>
-</ul>
-<p><strong>Note</strong>: If you want to run the finished app, you have to create a project in the Firebase console corresponding to the package name and SHA1. See Create Firebase Console Project for the command. Also you will have to enable Google as an Auth Provider, Do this in the Auth section of the Firebase console. </p>
-</aside>
+        </google-codelab-step>
 
+        <google-codelab-step label="OLXLite sample code" duration="5">
+            <p>Silahkan Clone GitHub repository dari command line kamu:</p>
+<pre>
+$ git clone git@github.com:ar-android/GDGYogyakartaCodelabs-03-02-2017.github.com
+$ git checkout codelab
+$ git pull
+</pre>
+            <aside class="special">
+                <p><strong>Note</strong>: Setelah kamu download sample code kamu perlu membuat project baru di firebase untuk mengintegrasikan project ini. </p>
+            </aside>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Import the starter app" duration="2">
-        <p>From Android Studio, select the <code>android-start</code> directory (<img style="max-width: 20.00px" src="img/bb745dc85ae69f6b.png">)   from the sample code download (<strong>File</strong> &gt; <strong>Open </strong>&gt; .../firebase-codelabs/android-start).</p>
-<p>You should now have the android-start project open in Android Studio.</p>
+        </google-codelab-step>
 
+        <google-codelab-step label="Import simple" duration="2">
+            <p>Dari android studioo, pilih <code>android-start</code> direktori (<img style="max-width: 20.00px" src="img/bb745dc85ae69f6b.png">) from the sample code download (<strong>File</strong> &gt; <strong>Open </strong>&gt; .../GDGYogyakartaCodelabs-03-02-2017/codelab).</p>
+            <p>You should now have the android-start project open in Android Studio.</p>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Create Firebase console Project" duration="1">
-        <ol type="1" start="1">
-<li>Go to the <a href="https://console.firebase.google.com" target="_blank">Firebase console</a>.</li>
-<li>Select <strong>Create New Project</strong>, and name your project &#34;FriendlyChat.&#34;</li>
-</ol>
-<h3>Connect your Android app</h3>
-<ol type="1" start="1">
-<li>From the overview screen of your new project,<br>click <strong>Add Firebase to your Android app</strong>. </li>
-<li>Enter the codelab&#39;s package name: <code>com.google.firebase.codelab.friendlychat</code>.</li>
-<li>Enter the SHA1 of your signing keystore. If you are using the standard debug keystore, use the command below to find the SHA1 hash:</li>
-</ol>
-<pre><code>keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore -list -v -storepass android</code></pre>
-<aside class="special"><p><strong>Note</strong>: Your debug keystore, usually called &#34;debug.keystore&#34;, is typically located at </p>
-<p>&lt;home&gt;/.android/debug.keystore</p>
-<p>See <a href="https://developers.google.com/android/guides/client-auth" target="_blank">here</a> for more detail on finding SHA1.</p>
-</aside>
-<h3>Add google-services.json file to your app</h3>
-<p>After adding the package name and SHA1 and selecting Continue<strong>,</strong> your browser automatically downloads a configuration file that contains all the necessary Firebase metadata for your app. Copy the google-services.json file into the <em><code>app</code></em> directory in your project.</p>
-<h3>Add google-services plugin to your app</h3>
-<p>The google-services plugin uses the google-services.json file to configure your application to use Firebase. The following line should already be added to the end of the build.gradle file in the <em><code>app</code></em> directory of your project (check to confirm):</p>
-<pre><code>apply plugin: &#39;com.google.gms.google-services&#39;</code></pre>
-<h3>Sync your project with gradle files</h3>
-<p>To be sure that all dependencies are available to your app, you should sync your project with gradle files at this point. Select <strong>Sync Project with Gradle Files </strong>(<img style="max-width: 21.31px" src="img/19a637a9cffe4b32.png">) from the Android Studio tool bar.</p>
-<aside class="special"><p><strong>Note</strong>: For this codelab, you should only need to use Sync Project with Gradle files at this point.</p>
-</aside>
+        </google-codelab-step>
 
+        <google-codelab-step label="Buat Firebase Project" duration="1">
+            <ol type="1" start="1">
+                <li>Buka web <a href="https://console.firebase.google.com" target="_blank">Firebase console</a>.</li>
+                <li>Pilih <strong>Create New Project</strong>, and beri nama projectmu &#34;OLXLite.&#34;</li>
+            </ol>
+            <h3>Connect your Android app</h3>
+            <ol type="1" start="1">
+                <li>Dari halaman overviewdari project baru kamu,
+                    <br>click <strong>Add Firebase to your Android app</strong>. </li>
+                <li>Masukkan codelab&#39;s package name: <code>com.ahmadrosid.olxlite</code>.</li>
+                <li>Masukkan SHA1 dari signing keystore kamu. Jika kamu menggunakan standard debug keystore, Gunakan command dibawah ini untuk mendapatkan SHA1 hash:</li>
+            </ol>
+            <pre><code>keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore -list -v -storepass android</code></pre>
+            <aside class="special">
+                <p><strong>Note</strong>: Keystore debug kamu berada pada file &#34;debug.keystore&#34;, dan berada pada direktory </p>
+                <p>&lt;home&gt;/.android/debug.keystore</p>
+                <p>Lihat <a href="https://developers.google.com/android/guides/client-auth" target="_blank">disini</a> Untuk mempelajari lebih detail tentang SHA1.</p>
+            </aside>
+            <h3>Tambahkan google-services.json kedalam projectmu</h3>
+            <p>Setelah menambahkan package name dan SHA1 dan Continue<strong>,</strong> browser kamu secara otomatis akan mendownloads a configuration file untuk seluruh yang penting kedalam project kamu. Copy file google-services.json kedalam <em><code>app</code></em> direktor project kamu.</p>
+            <h3>Dan google service plugin di projectmu</h3>
+            <p>Google-services digunakan untuk mengurai  data google-services.json untuk konfigurasi firebase. Masukkan kedalam build.gradle di direktory <em><code>app</code></em> dari project kamu:</p>
+            <pre><code>apply plugin: &#39;com.google.gms.google-services&#39;</code></pre>
+            <h3>Sync grdle build</h3>
+            <p>Untuk memastikan konfigurasi project grdle silahkan pilih <strong>Sync Project with Gradle Files </strong>(<img style="max-width: 21.31px" src="img/19a637a9cffe4b32.png">) dari Android Studio tool bar.</p>
+            <aside class="special">
+                <p><strong>Note</strong>: Untuk codelabs kali ini kamu hanya perlu klik sync pada toolbar andorid studioo.</p>
+            </aside>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Run the starter app" duration="1">
-        <p>Now that you have imported the project into Android Studio and configured the <code>google-services</code> plugin with your JSON file, you are ready to run the app for the first time.  Connect your Android device, and click <strong>Run</strong> (<img style="max-width: 20.00px" src="img/74540ff4e857014c.png">)in the Android Studio toolbar.</p>
-<p>The app should launch on your device. At this point, you should see an empty message list, and sending and receiving messages will not work. In the next section, you authenticate users so they can use Friendly Chat.</p>
+        </google-codelab-step>
 
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Enable Authentication" duration="5">
-        <p>Let&#39;s require a user to sign in before reading or posting any Friendly Chat messages.</p>
-<h3>Firebase Realtime Database Rules</h3>
-<p>Access to your Firebase Database is configured by a set of rules written in a JSON configuration language.</p>
-<p>Go to your project in the Firebase console, select <strong>Database</strong> and then the <strong>Rules</strong> tab. Confirm that the rules set on the database look like the following:</p>
-<pre><code>{
+        <google-codelab-step label="Aktifkan Authentication" duration="5">
+            <p>Yang pertama sebelum melanjutkan membuat aplikasi mari kita aktifkan firebase auth google plus .</p>
+            <h3>Firebase Realtime Database</h3>
+            <p>Sebelum user melakukan aktifitas di aplikasi ini user harus login terlebih dahulu untuk itu kita perlu melakukan konfigurasi rule Firebase Database ini.</p>
+            <p>Buka project di Firebase console, pilih <strong>Database</strong> dan kemudian buka tab <strong>Rules</strong>.Buat rules seperti berikut ini:</p>
+            <pre><code>{
   &#34;rules&#34;: {
     &#34;.read&#34;: &#34;auth != null&#34;,
     &#34;.write&#34;: &#34;auth != null&#34;
   }
 }</code></pre>
-<p>For more information on how this works (including documentation on the &#34;auth&#34; variable) see the Firebase <a href="https://firebase.google.com/docs/database/security/quickstart" target="_blank">security documentation</a>.</p>
-<h3>Configure Authentication APIs</h3>
-<p>Before your application can access the Firebase Authentication APIs on behalf of your users, you will have to enable it </p>
-<ol type="1" start="1">
-<li>Navigate to the <a href="http://console.firebase.google.com" target="_blank">Firebase console</a> and select your project</li>
-<li>Select <strong>Auth</strong></li>
-<li>Select the <strong>Sign In Method</strong> tab</li>
-<li>Toggle the <strong>Google</strong> switch to enabled (blue)</li>
-<li>Press <strong>Save</strong> on the resulting dialog</li>
-</ol>
-<p>If you get errors later in this codelab with the message &#34;CONFIGURATION_NOT_FOUND&#34;, come back to this step and double check your work.</p>
-<h3>Add Firebase Auth dependency</h3>
-<p>The firebase-auth allows easy management of authenticated users of your application. Confirm the existence of this dependency in your <code>app/build.gradle</code> file.</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-auth:10.0.0&#39;</code></pre>
-<p>Add an Auth instance variables in the <code>MainActivity</code> class:</p>
-<h3>MainActivity.java (instance variable)</h3>
-<pre><code>// Firebase instance variables
-private FirebaseAuth mFirebaseAuth;
-private FirebaseUser mFirebaseUser;</code></pre>
-<h3>Check for current user</h3>
-<p>Modify <code>MainActivity.java</code> to send the user to the sign-in screen whenever they open the app and are unauthenticated. </p>
-<p>Add the following to the <code>onCreate</code> method <strong>after </strong><code>mUsername</code> has been initialized:</p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>// Initialize Firebase Auth
-mFirebaseAuth = FirebaseAuth.getInstance();
-mFirebaseUser = mFirebaseAuth.getCurrentUser();
-if (mFirebaseUser == null) {
-    // Not signed in, launch the Sign In activity
-    startActivity(new Intent(this, SignInActivity.class));
-    finish();
-    return;
+            <p>Untuk mempelajari lebih lanjut tentang firebase rules ini silahkan buka dokumentasi  <a href="https://firebase.google.com/docs/database/security/quickstart" target="_blank">disini</a>.</p>
+            <h3>Konfigurasi Authentication APIs</h3>
+            <p>Sebelum mengakses firebase auth silahkan buka konfigurasi Authentication dan ikuti langkah - langkah berikut ini. </p>
+            <ol type="1" start="1">
+                <li>Buka <a href="http://console.firebase.google.com" target="_blank">Firebase console</a> Dan buka project kamu.</li>
+                <li>Buka tab<strong>Sign In Method</strong>.</li>
+                <li>Klik Toggle <strong>Google</strong> dan switch to enabled (biru)</li>
+                <li>Klik <strong>Save</strong> pada result dialog.</li>
+            </ol>
+            <h3>Tambahkan Firebase Auth dependency</h3>
+            <p>Firebase auth memungkinkan kita mengatur dan mengakses data user. Masukkan pada dependency  <code>app/build.gradle</code>.</p>
+            <h3>app/build.gradle</h3>
+            <pre><code>compile &#39;com.google.firebase:firebase-auth:9.4.0&#39;</code></pre>
+            <p>Dan pada  <code>WelcomeActivity</code> pada method checkAuth tambahkan code seperti dibawah ini:</p>
+            <h3>WelcomeActivity.java</h3>
+            <pre><code>// checkAuth
+FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+if (user != null) {
+    open(HomeActivity.class);
 } else {
-    mUsername = mFirebaseUser.getDisplayName();
-    if (mFirebaseUser.getPhotoUrl() != null) {
-        mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-    }
-}</code></pre>
-<p>Then add a new case to <code>onOptionsItemSelected()</code> to handle the sign out button:</p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.sign_out_menu:
-                mFirebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
-                startActivity(new Intent(this, SignInActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    open(LoginActivity.class);
+}
 </code></pre>
-<p>Now we have all of the logic in place to send the user to the sign-in screen when necessary. Next we need to implement the sign-in screen to properly authenticate users.</p>
-<h3>Implement the Sign-In screen</h3>
-<p>Open the file <code>SignInActivity.java</code>.  Here a simple Sign-In button is used to initiate authentication. In this step you will implement the logic to Sign-In with Google then use that Google account to authenticate with Firebase.</p>
-<p>Add an Auth instance variables in the <code>SignInActivity</code> class:</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>// Firebase instance variables
-private FirebaseAuth mFirebaseAuth;</code></pre>
-<p>Then, edit the <code>onCreate()</code> method to initialize Firebase in the same way you did in <code>MainActivity</code>:</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>// Initialize FirebaseAuth
-mFirebaseAuth = FirebaseAuth.getInstance();</code></pre>
-<p>Next, initiate signing in with Google. Update SignInActivity&#39;s onClick method to look like this:</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>@Override
-public void onClick(View v) {
-   switch (v.getId()) {
-       case R.id.sign_in_button:
-           signIn();
-           break;
-   }
-}</code></pre>
-<p>Add the required signIn method that actually presents the user with the Google Sign In UI.</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-</code></pre>
-<p>Next, handle the result of the Google Sign In, add onActivityResult method to SignInActivity to handle the sign in result. Once the result of the Google Sign In was successful, use the account to authenticate with Firebase:</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+            
+            <p>Code di atas berfungsi untuk mengetahui apakah user telah login atau belum.</p>
+            <h3>LoginActivity.class</h3>
+            <p>Pada LoginPresenter di method loadConfig tambahkan code seperti berikut ini:</p>
+            <pre>
+              <code>
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            } else {
-                // Google Sign In failed
-                Log.e(TAG, &#34;Google Sign In failed.&#34;);
+public void loadConfig() {
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(activity.getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build();
+
+    mGoogleApiClient = new GoogleApiClient.Builder(activity)
+            .enableAutoManage(activity, connectionResult -> {
+                Log.d(TAG, "loadConfig: google play services error.");
+            })
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build();
+
+    mAuth = FirebaseAuth.getInstance();
+
+    mAuthListener = firebaseAuth -> {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            mvpView.successLogin();
+            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+        } else {
+            Log.d(TAG, "onAuthStateChanged:signed_out");
+        }
+    };
+
+    mAuth.addAuthStateListener(mAuthListener);
+}
+              </code>
+            </pre>
+            <p>Pada firebaseAuthWithGoogle tambahkan code seperti berikut ini.</p>
+            <pre><code>//firebaseAuthWithGoogle
+public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+    showProgressDialog();
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+    mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(activity, task -> {
+                Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "signInWithCredential", task.getException());
+                }
+                hideProgressDialog();
+            });
+}
+</code></pre>
+        <p>Kemudian untuk eksekusi login silahkan tambahkan code berikut ini pada method signIn:</p>
+        <pre>
+          <code>
+public void signIn() {
+    Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+    mvpView.startResult(signInIntent, RC_SIGN_IN);
+}</code>
+        </pre>
+
+        </google-codelab-step>
+
+        <google-codelab-step label="Firebase Realtime Database" duration="1">
+            <h3>Firebase Realtime Database dependency</h3>
+            <p>Untuk menggunakan firebase database silahkan tambahkan dependency berikut ini pada app/build.gradle:</p>
+            <h3>Dependency in app/build.gradle</h3>
+            <pre><code>compile &#39;com.google.firebase:firebase-database:9.4.0&#39;</code></pre>
+            <p>Untuk database ini akan kita gunakan untuk post data ke server pada kali ini silahkan buka NewIklanPresenter.class tambahkan code berikut ini</p>
+<pre><code>
+public void postNewIklan(String judul, String harga, String lokasi, String description, String url_photo) {
+    getMvpView().startLoading();
+    PostNewIklan postNewIklan = new PostNewIklan(getUid(), judul, harga, lokasi, description, url_photo);
+    String key = mDatabase.child("iklan").push().getKey();
+    Map<String, Object> postValues = postNewIklan.toMap();
+
+    Map<String, Object> childUpdates = new HashMap<>();
+    childUpdates.put("/iklan/" + key, postValues);
+    childUpdates.put("/users/iklan/" + getUid() + "/" + key, postValues);
+
+    mDatabase.updateChildren(childUpdates)
+            .addOnCompleteListener(getMvpView().getActivity(), task -> {
+                if (task.isComplete()){
+                    getMvpView().stopLoading();
+                    getMvpView().finishAddNewIklan();
+                }
+            });
+}
+  </code>
+</pre>
+        </google-codelab-step>
+
+        <google-codelab-step label="Firebase REST Api" duration="0">
+        <p>Pada Firebase Rest api ini akan kita gunakan untuk membaca data iklan. Untuk mengimplementasikan nya silahkan buka class Endpoint.java tambahkna code seperti berikut ini.</p>
+        <h3>Endpoint.java</h3>
+        <pre><code>public class Endpoint {
+    private static String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public static final String MAIN_URL = "isikan sesuai url project firebase kamu";
+    private static final String AUTH = "?auth=screet code";
+    public static final String IKLAN = MAIN_URL + "iklan.json" + AUTH;
+    public static final String IKLAN_SAYA = MAIN_URL + "users/iklan/" + uid + ".json" + AUTH;
+}
+        </code></pre>
+        <h3>HomeFragmentPresenter.java</h3>
+        <p>Pada case kali ini kita akan mengambil data list iklan pada HomeFragmentPresenter.java tambahkan code seperti berikut ini.</p>
+        <pre><code>public void loadCommonIklan() {
+    getMvpView().startLoading();
+    getSubscraiber().add(
+            getIklan()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::onResponse, this::onError)
+    );
+}
+        </code></pre>
+        <p>Selanjutnya kita parsing data yang telah kita terima dan tambahkan code berikut ini.</p>
+        <pre><code>private void parseData(String json) {
+    data.clear();
+    JSONObject jobject = null;
+    try {
+        jobject = new JSONObject(json);
+        if (jobject.names().length() == 0) {
+            getMvpView().showMessage("Belumada iklan.");
+        } else {
+            for (int i = 0; i < jobject.names().length(); i++) {
+                String value = jobject.get(jobject.names().getString(i)).toString();
+                IklanModel iklanData = getParser().fromJson(value, IklanModel.class);
+                data.add(iklanData);
+                setAdapter();
             }
         }
+    } catch (JSONException e) {
+        e.printStackTrace();
     }
+}
+        </code></pre>
+        </google-codelab-step>
 
-</code></pre>
-<p>Add the required firebaseAuthWithGoogle method to authenticate with the signed in Google account:</p>
-<p><strong>SignInActivity.java</strong></p>
-<pre><code>private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, &#34;firebaseAuthWithGooogle:&#34; + acct.getId());
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener&lt;AuthResult&gt;() {
-                    @Override
-                    public void onComplete(@NonNull Task&lt;AuthResult&gt; task) {
-                        Log.d(TAG, &#34;signInWithCredential:onComplete:&#34; + task.isSuccessful());
+        <google-codelab-step label="Report Crashes" duration="1">
+        <p>Firebase creas reporting ini membantu kita untuk menangkap error pada aplikasi dan membuat log nya dengan ini akan memudahkan kita untuk proses pengembangan aplikasi apa bila aplikasi kita di akses oleh banyak device. Untuk menggunakan silahkan tambahkan dependency berikut ini. </p>
+        <pre><code>compile 'com.google.firebase:firebase-crash:10.0.0'</code></pre>
+        <p>Contoh penggunaan dari crash reporting ini bisa dilihat di DetailIklanActivity.class</p>
+        <pre><code>try {
+    IklanModel data = getIntent().getParcelableExtra("data");
+    String[] mImage = data.getUrl_image().split(",");
+    Glide.with(this).load(mImage[0]).centerCrop().into(img);
+    judul.setText(data.getJudul());
+    harga.setText(CurrencyHelper.format(data.getHarga()));
+    description.setText(data.getDescription());
+    getSupportActionBar().setTitle(data.getJudul());
+}catch (Exception e){
+    FirebaseCrash.logcat(Log.DEBUG, "Error set data detail.", e.getMessage());
+}</code></pre>
+<p>Pada setiap action di aplikasi itu memiliki Exception nah exception ini biasa nya itu memiliki pesan error nah dengan mendapatkan report dari exception ini akan bisa memudahkan kita untuk menganalisa kesalahan dari aplikasi yang kita buat.</p>
+        </google-codelab-step>
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, &#34;signInWithCredential&#34;, task.getException());
-                            Toast.makeText(SignInActivity.this, &#34;Authentication failed.&#34;,
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    }
+        <google-codelab-step label="Selamat Codelab Selesai!" duration="0">
+            <p>Selamat anda telah selesai mengikuti codelan kali ini berikut ini adalah materi yang kita pelajari.</p>
+            <h3 class="checklist">Ringkasa</h3>
+            <ul class="checklist">
+                <li>Firebase Authentication</li>
+                <li>Firebase Realtime Database</li>
+                <li>Firebase Rest API</li>
+                <li>Firebase Crash Reporting</li>
+            </ul>
+            <h3>Next Steps</h3>
+            <ul>
+                <li>Gunakan Firebase pada aplikasi Android kamu.</li>
+            </ul>
+            <h3>Learn More</h3>
+            <ul>
+                <li><a href="https://firebase.google.com" target="_blank">firebase.google.com</a></li>
+            </ul>
+
+        </google-codelab-step>
+
+    </google-codelab>
+
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-49880327-14', 'auto');
+
+        (function() {
+            var gaCodelab = '';
+            if (gaCodelab) {
+                ga('create', gaCodelab, 'auto', {
+                    name: 'codelab'
                 });
-    }
+            }
 
-</code></pre>
-<p>That&#39;s it! You&#39;ve implemented authentication using Google as an Identity Provider in just a few method calls and without needing to manage any server-side configuration.</p>
-<h3>Test your work</h3>
-<p>Run the app on your device. You should be immediately sent to the sign-in screen. Tap the Google Sign In button. You should then be sent to the messaging screen if everything worked well.</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Activate Firebase Realtime Database" duration="1">
-        <h3>Import Messages</h3>
-<ol type="1" start="1">
-<li>In your project in Firebase console, select <strong>Database</strong> on the left navigation menu.</li>
-<li>In the overflow menu of the Database, select <strong>Import JSON</strong>. </li>
-<li>Browse to the initial_messages.json file in the root of the cloned repository, and select it. </li>
-<li>Click <strong>Import</strong>.</li>
-</ol>
-<aside class="special"><p><strong>Note</strong>: This replaces any data currently in your database.</p>
-</aside>
-<p>After importing the JSON file, your database should look like this:</p>
-<pre><code>root
-        messages
-                -K2ib4H77rj0LYewF7dP
-                        text: &#34;hello&#34;
-                        name: &#34;anonymous&#34;
-                -K2ib5JHRbbL0NrztUfO
-                        text: &#34;how are you&#34;
-                        name: &#34;anonymous&#34;
-                -K2ib62mjHh34CAUbide
-                        text: &#34;i am fine&#34;
-                        name: &#34;anonymous&#34;
-</code></pre>
-<h3>Add Firebase Realtime Database dependency</h3>
-<p>In the dependencies block of the app/build.gradle file, the following dependency should be included. For this codelab, it is already added for convenience; confirm this by looking in the app/build.gradle file:</p>
-<h3>Dependency in app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-database:10.0.0&#39;</code></pre>
-<h3>Synchronize messages</h3>
-<p>Add code that synchronizes newly added messages to the app UI.</p>
-<p>Initialize the Firebase Realtime Database and add a listener to handle changes made to the data. Update the RecyclerView adapter so new messages will be shown.</p>
-<p>Add a Database instance variables in the <code>MainActivity</code> class:</p>
-<h3>MainActivity.java</h3>
-<pre><code>// Firebase instance variables
-private DatabaseReference mFirebaseDatabaseReference;
-private FirebaseRecyclerAdapter&lt;FriendlyMessage, MessageViewHolder&gt;
-        mFirebaseAdapter;</code></pre>
-<p>Modify your MainActivity&#39;s <code>onCreate</code> method, replace <em><code>mProgressBar.setVisibility(ProgressBar.INVISIBLE);</code></em><em> </em>with the code defined below. This code initially adds all existing messages then listens for new child entries under the messages path in your Firebase Realtime Database. It adds a new element to the UI for each message:</p>
-<h3>MainActivity.java</h3>
-<pre><code>// New child entries
-mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-mFirebaseAdapter = new FirebaseRecyclerAdapter&lt;FriendlyMessage, 
-                                               MessageViewHolder&gt;(
-               FriendlyMessage.class,
-               R.layout.item_message,
-               MessageViewHolder.class,
-               mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
-
-   @Override
-   protected void populateViewHolder(MessageViewHolder viewHolder,
-           FriendlyMessage friendlyMessage, int position) {
-       mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-       viewHolder.messageTextView.setText(friendlyMessage.getText());
-       viewHolder.messengerTextView.setText(friendlyMessage.getName());
-       if (friendlyMessage.getPhotoUrl() == null) {
-           viewHolder.messengerImageView
-                   .setImageDrawable(ContextCompat
-                           .getDrawable(MainActivity.this,
-                   R.drawable.ic_account_circle_black_36dp));
-       } else {
-           Glide.with(MainActivity.this)
-                   .load(friendlyMessage.getPhotoUrl())
-                   .into(viewHolder.messengerImageView);
-       }
-   }
-};
-
-mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-   @Override
-   public void onItemRangeInserted(int positionStart, int itemCount) {
-       super.onItemRangeInserted(positionStart, itemCount);
-       int friendlyMessageCount = mFirebaseAdapter.getItemCount();
-       int lastVisiblePosition =
-              mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-       // If the recycler view is initially being loaded or the 
-       // user is at the bottom of the list, scroll to the bottom 
-       // of the list to show the newly added message.
-       if (lastVisiblePosition == -1 ||
-               (positionStart &gt;= (friendlyMessageCount - 1) &amp;&amp;
-                       lastVisiblePosition == (positionStart - 1))) {
-           mMessageRecyclerView.scrollToPosition(positionStart);
-       }
-   }
-});
-
-mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-mMessageRecyclerView.setAdapter(mFirebaseAdapter);
-
-</code></pre>
-<h3>Test message sync</h3>
-<ol type="1" start="1">
-<li>Click <strong>Run </strong>(<img style="max-width: 20.00px" src="img/74540ff4e857014c.png">).</li>
-<li>Add new messages directly in the Database section of the Firebase console. Confirm that they show up in the Friendly-Chat UI.</li>
-</ol>
-<ul>
-<li>From the Database section of Firebase console, Data tab, select the &#39;+&#39; sign on the messages element.</li>
-<li>Give the new element a name of -ABCD (note the &#39;-&#39; sign)</li>
-<li>Select the &#39;+&#39; sign on the -ABCD element</li>
-<li>Give the new element a name of name and value of Mary</li>
-<li>Select the &#39;+&#39; sign on the -ABCD element</li>
-<li>Give the new element a name of text and value of hello</li>
-<li>Select Add</li>
-</ul>
-<p>Congratulations, you just added a realtime database to your app!</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Send Messages" duration="0">
-        <h3>Implement message sending</h3>
-<p>In this section, you will add the ability for app users to send messages.  The code snippet below listens for click events on the send button, creates a new <code>FriendlyMessage</code> object with the contents of the message field, and pushes the message to the database.  The push() method adds an automatically generated ID to the pushed object&#39;s path.  These IDs are sequential which ensures that the new messages will be added to the end of the list.  </p>
-<p>Update the <code>onClick</code> method of <code>mSendButton</code> in the <code>onCreate</code> method in the <code>MainActivity</code> class.  This code is at the bottom of the <code>onCreate</code> method already, update the <code>onClick</code> body to match the code below:</p>
-<h3>MainActivity.java</h3>
-<pre><code>mSendButton = (Button) findViewById(R.id.sendButton);
-mSendButton.setOnClickListener(new View.OnClickListener() {
-   @Override
-   public void onClick(View view) {
-       FriendlyMessage friendlyMessage = new 
-               FriendlyMessage(mMessageEditText.getText().toString(),
-                               mUsername,
-                               mPhotoUrl);
-       mFirebaseDatabaseReference.child(MESSAGES_CHILD)
-               .push().setValue(friendlyMessage);
-       mMessageEditText.setText(&#34;&#34;);
-   }
-});</code></pre>
-<h3>Test Sending Messages</h3>
-<ol type="1" start="1">
-<li>Click the <img style="max-width: 20.00px" src="img/74540ff4e857014c.png"><strong>Run</strong> button.</li>
-<li>Enter a message and hit the send button, the new message should be visible in the app UI and in the Firebase console.</li>
-</ol>
-<aside class="special"><p><strong>Note</strong>: In this codelab default Friendly Messages are limited to a length of 10 characters. In step 9 you will learn how you can use Remote Config to change this limit, even on active clients.</p>
-</aside>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Add Messages to the On-device Index" duration="5">
-        <p>You can use Firebase App Indexing to index personal content to the user&#39;s device. This allows your users to search the Google app and find  messages they added in the FriendlyChat application. If your app is installed and enabled with App Indexing, a search query related to personal content takes a user directly into your app, which helps drive re-engagement with your app&#39;s content. </p>
-<p>In this section, we configure the application to write messages to the index so that they are discoverable in the Google app. </p>
-<h3>Add the app indexing dependency</h3>
-<p>The firebase-appindexing dependency provides the ability to write messages to the on-device index and to log user actions. Add this dependency in your <code>app/build.gradle</code> file.</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-appindexing:10.0.0&#39;</code></pre>
-<h3>Add an intent filter</h3>
-<p>Add an intent filter into your <code>AndroidManifest.xml</code> file to handle incoming links of the form <em>http://friendlychat.firebase.google.com/message/*</em>. </p>
-<p><strong>AndroidManifest.xml</strong></p>
-<pre><code>&lt;activity android:name=&#34;com.google.firebase.codelab.friendlychat.MainActivity&#34;&gt;
-   &lt;intent-filter&gt;
-       &lt;action android:name=&#34;android.intent.action.MAIN&#34;/&gt;
-       &lt;category android:name=&#34;android.intent.category.LAUNCHER&#34;/&gt;
-   &lt;/intent-filter&gt;
-   &lt;intent-filter&gt;
-       &lt;action android:name=&#34;android.intent.action.VIEW&#34;/&gt;
-       &lt;category android:name=&#34;android.intent.category.DEFAULT&#34;/&gt;
-       &lt;category android:name=&#34;android.intent.category.BROWSABLE&#34;/&gt;
-       &lt;data
-         android:host=&#34;friendlychat.firebase.google.com&#34;
-         android:scheme=&#34;http&#34;
-         android:pathPrefix=&#34;/message&#34;
-/&gt;
-   &lt;/intent-filter&gt;
-&lt;/activity&gt;</code></pre>
-<h3>Add personal content to index</h3>
-<p>Any time a user sends a message from their device, you can add that message to the on-device index for future discoverability through the Google app. </p>
-<p>First, add the following code to create a message to write to the on-device index: </p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>private Indexable getMessageIndexable(FriendlyMessage friendlyMessage) {
-   PersonBuilder sender = Indexables.personBuilder()
-           .setIsSelf(mUsername == friendlyMessage.getName())
-           .setName(friendlyMessage.getName())
-           .setUrl(MESSAGE_URL.concat(friendlyMessage.getId() + &#34;/sender&#34;));
-
-   PersonBuilder recipient = Indexables.personBuilder()
-           .setName(mUsername)
-           .setUrl(MESSAGE_URL.concat(friendlyMessage.getId() + &#34;/recipient&#34;));
-
-   Indexable messageToIndex = Indexables.messageBuilder()
-           .setName(friendlyMessage.getText())
-           .setUrl(MESSAGE_URL.concat(friendlyMessage.getId()))
-           .setSender(sender)
-           .setRecipient(recipient)
-           .build();
-
-   return messageToIndex;
-}
-</code></pre>
-<p>Next, in the <code>FirebaseRecyclerAdapter</code>, add and override the <code>parseSnapshot</code> method to get the unique ID of each <code>FriendlyMessage</code>:</p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>mFirebaseAdapter = new FirebaseRecyclerAdapter&lt;FriendlyMessage, MessageViewHolder&gt;(
-       FriendlyMessage.class,
-       R.layout.item_message,
-       MessageViewHolder.class,
-       mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
-
-   @Override
-   protected FriendlyMessage parseSnapshot(DataSnapshot snapshot) {
-       FriendlyMessage friendlyMessage = super.parseSnapshot(snapshot);
-       if (friendlyMessage != null) {
-           friendlyMessage.setId(snapshot.getKey());
-       }
-       return friendlyMessage;
-   }
-   ...</code></pre>
-<p>Lastly, call <code>indexMessage()</code> whenever there is a new message. You can index the <code>FriendlyMessage</code> when the <code>viewHolder</code> for it is populated in the same <code>FirebaseRecyclerAdapter</code>:</p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>@Override
-protected FriendlyMessage parseSnapshot(DataSnapshot snapshot) {
-    ...
-}
-
-@Override
-protected void populateViewHolder(MessageViewHolder viewHolder, FriendlyMessage friendlyMessage, int position) {
-   ...
-   // write this message to the on-device index
-FirebaseAppIndex.getInstance().update(getMessageIndexable(friendlyMessage));
-
-}</code></pre>
-<p><strong>Note: </strong>It helps to add an <code>IntentService</code> that establishes a base index of <em>all messages</em> for you initially. See details in the <a href="https://firebase.google.com/docs/app-indexing/android/app" target="_blank">App Indexing documentation</a>.</p>
-<h3>Log user actions</h3>
-<p><a href="https://firebase.google.com/docs/app-indexing/android/log-actions" target="_blank">Logging user actions</a> in your app helps improve your users&#39; experience when they search for your app content in the Google app.  </p>
-<p>Logging user actions on personal content, such as viewing messages, needs to be marked with the upload attribute set to <code>false</code> in the <code>Metadata</code> object of the <code>Action</code>. This ensures user action activity on personal content remains on the device, and will not be uploaded to Google servers.</p>
-<p>To log the <code>VIEW_ACTION</code> user action, add the following function to <code>MainActivity.java</code></p>
-<p><strong>MainActivity.java</strong></p>
-<pre><code>private Action getMessageViewAction(FriendlyMessage friendlyMessage) {
-return new Action.Builder(Action.Builder.VIEW_ACTION)
-               .setObject(friendlyMessage.getName(), MESSAGE_URL.concat(friendlyMessage.getId()))
-               .setMetadata(new Action.Metadata.Builder().setUpload(false))
-               .build();
-}
-</code></pre>
-<p>Next, add the <code>FirebaseUserActions.getInstance().end(...)</code> method to indicate the end of logging a user action.  You can do this right after you&#39;ve added the new message to the index. Pass <code>getMessageViewAction()</code> from above to this method:<br><br><strong>MainActivity.java</strong></p>
-<pre><code>...
-
-@Override
-protected void populateViewHolder(MessageViewHolder viewHolder, FriendlyMessage friendlyMessage, int position) {
-
-...
-// write this message to the on-device index
-FirebaseAppIndex.getInstance().update(getMessageIndexable(friendlyMessage));
-
-// log a view action on it
-FirebaseUserActions.getInstance().end(getMessageViewAction(friendlyMessage));
-}
-</code></pre>
-<h3>Test your implementation</h3>
-<p><img style="max-width: 269.98px" src="img/c44e07d96eb155e8.png"></p>
-<ol type="1" start="1">
-<li>Start up the FriendlyChat app and send a new message with the text <em>Hi world! </em></li>
-<li>Go to the Google app, switch to <em>In Apps </em>and search for<em> Hi world.</em></li>
-<li>Confirm that the message can be found in the Google app. </li>
-<li>Tap on the result and confirm the FriendlyChat app opens. </li>
-</ol>
-<p>Congratulations! You&#39;ve successfully written your app&#39;s content to the on-device index for discoverability in the Google app.</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Receive Reengagement Notifications" duration="2">
-        <p>You can use Firebase Cloud Messaging (FCM) to send notifications to users of your app.  In this section we will configure the application to receive reengagement notifications which you can send from Firebase console.</p>
-<h3>Add FCM dependency</h3>
-<p>The firebase-messaging dependency provides the ability to send and receive FCM messages. Confirm the existence of this dependency to your <code>app/build.gradle</code> file.</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-messaging:10.0.0&#39;</code></pre>
-<h3>Add FCM Services</h3>
-<p>The <code>RegistrationIntentService</code> class is a background service is used to request the InstanceID token which identifies the application to the FCM server. It also subscribes to the topic that will be used to send re-engagement notifications (via topic messaging).</p>
-<p>The class <code>MyFirebaseMessagingService</code> will be the background service that handles incoming FCM messages.  </p>
-<p>Update it to <strong>extend </strong><code>FirebaseMessagingService</code> which is provided by the firebase-fcm library added earlier. It automatically handles notification messages, which are messages that the server specifies should produce a notification. To handle data messages (which are passed silently to the app rather than automatically creating a notification) you can override the <code>onMessageReceived</code> method from the <code>FirebaseMessagingService</code> base class:</p>
-<p><strong>MyFirebaseMessagingService.java</strong></p>
-<pre><code>public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
-   private static final String TAG = &#34;MyFMService&#34;;
-
-   @Override
-   public void onMessageReceived(RemoteMessage remoteMessage) {
-       // Handle data payload of FCM messages.
-       Log.d(TAG, &#34;FCM Message Id: &#34; + remoteMessage.getMessageId());
-       Log.d(TAG, &#34;FCM Notification Message: &#34; +
-               remoteMessage.getNotification());
-       Log.d(TAG, &#34;FCM Data Message: &#34; + remoteMessage.getData());
-   }
-}
-</code></pre>
-<p>The class <code>MyFirebaseInstanceIdService</code> will be a service used to handle FCM logic. This service is used to alert the application when a new InstanceID token is generated, and to retrieve the generated token.</p>
-<p>Modify it to <strong>extend </strong><code>FirebaseInstanceIdService</code> and override the <code>onTokenRefresh</code> method to subscribe to a topic. Use the following code to update the <code>onTokenRefresh</code> method in <code>MyFirebaseInstanceIdService</code> to look like this:</p>
-<p><strong>MyInstanceIDListenerService.java</strong></p>
-<pre><code>public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
-
-   private static final String TAG = &#34;MyFirebaseIIDService&#34;;
-   private static final String FRIENDLY_ENGAGE_TOPIC = &#34;friendly_engage&#34;;
-  
-   /**
-    * The Application&#39;s current Instance ID token is no longer valid 
-    * and thus a new one must be requested.
-    */
-   @Override
-   public void onTokenRefresh() {
-       // If you need to handle the generation of a token, initially or
-       // after a refresh this is where you should do that.
-       String token = FirebaseInstanceId.getInstance().getToken();
-       Log.d(TAG, &#34;FCM Token: &#34; + token);
-
-       // Once a token is generated, we subscribe to topic.
-       FirebaseMessaging.getInstance()
-               .subscribeToTopic(FRIENDLY_ENGAGE_TOPIC);
-   }
-}</code></pre>
-<p>Add service declarations for the <code>MyFirebaseListenerService</code> and the <code>MyInstanceIdListenerService</code>. Add these declarations as children of the application element.</p>
-<p><strong>AndroidManifest.xml</strong></p>
-<pre><code>&lt;service
-   android:name=&#34;.MyFirebaseMessagingService&#34;
-   android:exported=&#34;false&#34;&gt;
-   &lt;intent-filter&gt;
-       &lt;action android:name=&#34;com.google.firebase.MESSAGING_EVENT&#34; /&gt;
-   &lt;/intent-filter&gt;
-&lt;/service&gt;
-
-&lt;service
-   android:name=&#34;.MyFirebaseInstanceIdService&#34;
-   android:exported=&#34;false&#34;&gt;
-   &lt;intent-filter&gt;
-       &lt;action android:name=&#34;com.google.firebase.INSTANCE_ID_EVENT&#34; /&gt;
-   &lt;/intent-filter&gt;
-&lt;/service&gt;
-
-</code></pre>
-<p>That&#39;s it! FCM is all ready to receive messages.</p>
-<h3>Test Background Notifications</h3>
-<ol type="1" start="1">
-<li>Run the updated application.</li>
-<li>Hit the device&#39;s home button (or otherwise send the app to the background).</li>
-<li>Use the Composer in the Firebase console to send notifications.</li>
-</ol>
-<ol type="1" start="1">
-<li>In Firebase console select <strong>Notifications</strong> from the left navigation bar.</li>
-<li>Select <strong>Send Your First Message</strong>.</li>
-<li>Set Message Text to &#34;Friendly Chat?&#34;.</li>
-<li>Select the app we connected earlier as the App target.</li>
-<li>Click <strong>Send Message</strong></li>
-</ol>
-<ol type="1" start="4">
-<li>Confirm that message is received and notification is displayed on the device. The user should receive a notification that takes them back to the application when tapped.</li>
-</ol>
-<p>Hooray! You can re-engage your users easily with FCM. See the <a href="https://firebase.google.com/docs/cloud-messaging" target="_blank">documentation</a> for more on FCM.</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Remotely Configure Friendly Message Length" duration="2">
-        <p>Firebase Remote Config allows you to remotely configure your application without having to deploy and new code.  In this codelab &#34;Friendly Messages&#34; are restricted to a maximum length. By defining this maximum length with Firebase Remote Config rather than hardcoding it in the client we can update the value over the air through the Firebase console.</p>
-<h3>Add Config Rules in Firebase console</h3>
-<p>In the <strong>Remote Config</strong> section of  Firebase console click <strong>Add Parameter</strong>. Set the parameter key to <code>friendly_msg_length</code> and the parameter value to 10.  Make sure to click <strong>Publish</strong> when you are done.</p>
-<p><img style="max-width: 624.00px" src="img/1bfb47c6b27d1641.png"></p>
-<h3>Add Firebase Remote Config dependency</h3>
-<p>The <code>firebase-config</code> dependency provides the ability to remotely configure applications. Confirm that the following dependency is added to your <code>app/build.gradle</code> file:</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-config:10.0.0&#39;</code></pre>
-<p>Add a Firebase Remote Config instance variable in the <code>MainActivity</code> class:</p>
-<h3>MainActivity.java (instance variable)</h3>
-<pre><code>// Firebase instance variables
-private FirebaseRemoteConfig mFirebaseRemoteConfig;</code></pre>
-<h3>Request and use config</h3>
-<p>In the <code>MainActivity</code> <code>onCreate</code> method add the following snippet to initialize the <code>FirebaseRemoteConfig</code> and then invoke the <code>fetchConfig</code> method. Add it just above the initialization of the Firebase Realtime Database:</p>
-<h3>MainActivity.java</h3>
-<pre><code>// Initialize Firebase Remote Config.
-mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-
-// Define Firebase Remote Config Settings.
-FirebaseRemoteConfigSettings firebaseRemoteConfigSettings =
-       new FirebaseRemoteConfigSettings.Builder()
-       .setDeveloperModeEnabled(true)
-       .build();
-
-// Define default config values. Defaults are used when fetched config values are not
-// available. Eg: if an error occurred fetching values from the server.
-Map&lt;String, Object&gt; defaultConfigMap = new HashMap&lt;&gt;();
-defaultConfigMap.put(&#34;friendly_msg_length&#34;, 10L);
-
-// Apply config settings and default values.
-mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
-mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
-
-// Fetch remote config.
-fetchConfig();</code></pre>
-<p>Add <code>fetchConfig</code> and <code>applyRetrievedLengthLimit</code> methods to <code>MainActivity</code>, these methods fetch and activate the retrieved configuration from the Remote Config API. The retrieved configuration determines the max number of characters that a Friendly Message can contain. The default max is 10, set in the FirebaseRemoteConfigSettings object.</p>
-<h3>MainActivity.java</h3>
-<pre><code>// Fetch the config to determine the allowed length of messages.
-public void fetchConfig() {
-   long cacheExpiration = 3600; // 1 hour in seconds
-   // If developer mode is enabled reduce cacheExpiration to 0 so that 
-   // each fetch goes to the server. This should not be used in release
-   // builds.
-   if (mFirebaseRemoteConfig.getInfo().getConfigSettings()
-           .isDeveloperModeEnabled()) {
-       cacheExpiration = 0;
-   }
-   mFirebaseRemoteConfig.fetch(cacheExpiration)
-           .addOnSuccessListener(new OnSuccessListener&lt;Void&gt;() {
-               @Override
-               public void onSuccess(Void aVoid) {
-                   // Make the fetched config available via
-                   // FirebaseRemoteConfig get&lt;type&gt; calls.
-                   mFirebaseRemoteConfig.activateFetched();
-                   applyRetrievedLengthLimit();
-               }
-           })
-           .addOnFailureListener(new OnFailureListener() {
-               @Override
-               public void onFailure(@NonNull Exception e) {
-                   // There has been an error fetching the config
-                   Log.w(TAG, &#34;Error fetching config: &#34; + 
-                           e.getMessage());
-                   applyRetrievedLengthLimit();
-               }
-           });
-}
-
-
-/**
- * Apply retrieved length limit to edit text field. 
- * This result may be fresh from the server or it may be from cached
- * values.
- */
-private void applyRetrievedLengthLimit() {
-   Long friendly_msg_length =
-           mFirebaseRemoteConfig.getLong(&#34;friendly_msg_length&#34;);
-   mMessageEditText.setFilters(new InputFilter[]{new 
-           InputFilter.LengthFilter(friendly_msg_length.intValue())});
-   Log.d(TAG, &#34;FML is: &#34; + friendly_msg_length);
-}
-</code></pre>
-<p>Add a call to <code>fetchConfig</code> in the <code>onOptionsItemSelected</code> method in MainActivity. The <code>onOptionsItemSelected</code> method should now look like:</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-   switch (item.getItemId()) {
-       case R.id.fresh_config_menu:
-           fetchConfig();
-           return true;
-       case R.id.sign_out_menu:
-           mFirebaseAuth.signOut();
-           mUsername = ANONYMOUS;
-           startActivity(new Intent(this, SignInActivity.class));
-           return true;
-       default:
-           return super.onOptionsItemSelected(item);
-   }
-}</code></pre>
-<h3>Test Remote Config</h3>
-<ol type="1" start="1">
-<li>Click the <img style="max-width: 20.00px" src="img/74540ff4e857014c.png"><strong>Run</strong> button.</li>
-<li>Check that the Friendly Message character limit has been set to 10. Update the Remote Config value from 10 to 15 in Firebase console, then publish. From the overflow menu of the app select  Fresh Config and confirm that the Friendly Message character limit is now 15.</li>
-</ol>
-<p>Congratulations! You now know how to make vital updates to your app without re-releasing it.</p>
-<aside class="special"><p><strong>NOTE:</strong> Fresh config requests (requests from Remote Config server) are limited to 5 per hour. If this limit is exceeded requests will be throttled and cached values will be returned till the end of the hour.</p>
-</aside>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Send Install Invites" duration="1">
-        <p>Firebase App Invites provide a simple way for your users to share your application with their friends through Email or SMS.</p>
-<h3>Add AppInvite dependency</h3>
-<p>Confirm that the <code>firebase-appinvites</code> dependency is in your <code>app/build.gradle</code> file:</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.android.gms:play-services-appinvite:10.0.0&#39;</code></pre>
-<h3>Setup GoogleApiClient</h3>
-<p>Make MainActivity implement the <code>GoogleApiClient.OnConnectionFailedListener</code> interface. This should have already been done so just confirm it has been implemented:</p>
-<h3>MainActivity.java</h3>
-<pre><code>public class MainActivity extends AppCompatActivity implements
-       GoogleApiClient.OnConnectionFailedListener {</code></pre>
-<p>Implement the required onConnectionFailed method. This should have already been done so just confirm it has been implemented:</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-public void onConnectionFailed(ConnectionResult connectionResult) {
-   Log.d(TAG, &#34;onConnectionFailed:&#34; + connectionResult);
-}</code></pre>
-<p>Add a <code>GoogleApiClient</code> instance variable to <code>MainActivity</code>:</p>
-<h3>MainActivity.java</h3>
-<pre><code>private GoogleApiClient mGoogleApiClient;</code></pre>
-<p>Initialized <code>mGoogleApiClient</code> in the <code>onCreate</code> method in the <code>MainActivity</code>. AppInvites is initiated by calling <code>startActivityForResult</code>, this allows the AppInvites UI to handle the invitation generation then return its completion status to the calling activity via the <code>onActivityResult</code> method. Update the <code>GoogleApiClient</code> initialization to <code>onCreate</code> method in the <code>MainActivity</code> using this:</p>
-<h3>MainActivity.java</h3>
-<pre><code>mGoogleApiClient = new GoogleApiClient.Builder(this)
-       .enableAutoManage(this, this)
-       .addApi(Auth.GOOGLE_SIGN_IN_API)
-       .addApi(AppInvite.API)
-       .build();</code></pre>
-<h3>Send invitations</h3>
-<p>Add the <code>sendInvitation</code> method to <code>MainActivity</code> such that it creates and starts the intent which provides the user the ability to send invitations.</p>
-<h3>MainActivity.java</h3>
-<pre><code>private void sendInvitation() {
-   Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
-           .setMessage(getString(R.string.invitation_message))
-           .setCallToActionText(getString(R.string.invitation_cta))
-           .build();
-   startActivityForResult(intent, REQUEST_INVITE);
-}</code></pre>
-<p>Handle the Activity result invite callback, which will indicate whether or not the sending of the invites occurred successfully or not.</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-   super.onActivityResult(requestCode, resultCode, data);
-   Log.d(TAG, &#34;onActivityResult: requestCode=&#34; + requestCode +
-           &#34;, resultCode=&#34; + resultCode);
-
-   if (requestCode == REQUEST_INVITE) {
-       if (resultCode == RESULT_OK) {
-           // Check how many invitations were sent.
-           String[] ids = AppInviteInvitation
-                   .getInvitationIds(resultCode, data);
-           Log.d(TAG, &#34;Invitations sent: &#34; + ids.length);
-       } else {
-           // Sending failed or it was canceled, show failure message to
-           // the user
-           Log.d(TAG, &#34;Failed to send invitation.&#34;);
-       }
-   }
-}</code></pre>
-<p>Add a call to <code>sendInvitation</code> to the <code>onOptionsItemSelected</code> method in <code>MainActivity</code>. The <code>onOptionsItemSelected</code> method should now look like:</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-   switch (item.getItemId()) {
-       case R.id.invite_menu:
-           sendInvitation();
-           return true;
-       case R.id.fresh_config_menu:
-           fetchConfig();
-           return true;
-       case R.id.sign_out_menu:
-           mFirebaseAuth.signOut();
-           mUsername = ANONYMOUS;
-           startActivity(new Intent(this, SignInActivity.class));
-           return true;
-       default:
-           return super.onOptionsItemSelected(item);
-   }
-}</code></pre>
-<h3>Test App Invite</h3>
-<ol type="1" start="1">
-<li>Click the <img style="max-width: 20.00px" src="img/74540ff4e857014c.png"><strong>Run</strong> button.</li>
-<li>Tap the menu overflow at the top right of the screen.</li>
-<li>Select the <strong>Invite</strong> option.</li>
-<li>You should see the App Invites interface which will allow you to select Email and SMS contacts and send a custom invitation. You must have control of the receiving account to view the invitation once sent.</li>
-<li>Tap send and verify that the invitation is sent to the selected contact.</li>
-<li>Verify that selected contact is taken to app install screen from invite.</li>
-</ol>
-<p>You now know how to enable invites. Congrats!</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Track User Flows" duration="1">
-        <p>Firebase Analytics provides a way for you to understand the way users move through your application, where they succeed and where they get stuck. It can also be used to understand the most used parts of your application.</p>
-<h3>Add Analytics dependency</h3>
-<p>Confirm the existence of the <code>firebase-analytics</code> dependency your <code>app/build.gradle</code> file:</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-analytics:10.0.0&#39;</code></pre>
-<h3>Initialize Analytics</h3>
-<p>Add a <code>FirebaseAnalytics</code> instance variable to <code>MainActivity</code>:</p>
-<h3>MainActivity.java</h3>
-<pre><code>private FirebaseAnalytics mFirebaseAnalytics;</code></pre>
-<p>In <code>MainActivity</code> initialize mFirebaseAnalytics by adding the following line to the <code>onCreate</code> method. By initializing Firebase Analytics you will automatically track the lifecycle of your application throughout user sessions without writing any more code.</p>
-<h3>MainActivity.java</h3>
-<pre><code>mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);</code></pre>
-<h3>Send Custom Events</h3>
-<p>Initializing Firebase Analytics provides some default metrics like app installs and session lifecycle, however you may want to add custom events that help you understand how users interact with your app in specific ways. To send a custom event call <code>mFirebaseAnalytics.logEvent()</code> with the information about the custom event.</p>
-<p>In <code>MainActivity</code> log inviting events in the <code>onActivityResult</code> callback. Your <code>onActivityResult</code> callback should look like the code below.  You can see that in each case we send a <code>SHARE</code> event but with different custom parameters for success and failure.</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-   super.onActivityResult(requestCode, resultCode, data);
-   Log.d(TAG, &#34;onActivityResult: requestCode=&#34; + requestCode + &#34;, resultCode=&#34; + resultCode);
-
-   if (requestCode == REQUEST_INVITE) {
-       if (resultCode == RESULT_OK) {
-           Bundle payload = new Bundle();
-           payload.putString(FirebaseAnalytics.Param.VALUE, &#34;sent&#34;);
-           mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE,
-                   payload);
-           // Check how many invitations were sent and log.
-           String[] ids = AppInviteInvitation.getInvitationIds(resultCode,
-                   data);
-           Log.d(TAG, &#34;Invitations sent: &#34; + ids.length);
-       } else {
-           Bundle payload = new Bundle();
-           payload.putString(FirebaseAnalytics.Param.VALUE, &#34;not sent&#34;);
-           mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE,
-                  payload);
-           // Sending failed or it was canceled, show failure message to
-           // the user
-           Log.d(TAG, &#34;Failed to send invitation.&#34;);
-       }
-   }
-}</code></pre>
-<p>Any events you log to Firebase Analytics will be aggregated, anonymized, and reported in the Firebase console within 24 hours.</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Monetize with Ads" duration="1">
-        <p>AdMob gives you a way to easily monetize your application, you simply add the <code>AdView</code> placeholder and Google handles the ad delivery for you.</p>
-<h3>Add AdMob dependency</h3>
-<p>Confirm the <code>play-services-ads</code> dependency exists in your <code>app/build.gradle</code> file:</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.android.gms:play-services-ads:10.0.0&#39;</code></pre>
-<h3>Add ads namespace</h3>
-<p>Include the ads namespace in the root <code>RelativeLayout</code> tag in the activity_main.xml file.</p>
-<h3>activity_main.xml</h3>
-<pre><code>&lt;RelativeLayout
-   xmlns:android=&#34;http://schemas.android.com/apk/res/android&#34;
-   xmlns:tools=&#34;http://schemas.android.com/tools&#34;
-   xmlns:ads=&#34;http://schemas.android.com/apk/res-auto&#34;
-   android:layout_width=&#34;match_parent&#34;
-   android:layout_height=&#34;match_parent&#34;
-   android:paddingBottom=&#34;@dimen/activity_vertical_margin&#34;
-   android:paddingLeft=&#34;@dimen/activity_horizontal_margin&#34;
-   android:paddingRight=&#34;@dimen/activity_horizontal_margin&#34;
-   android:paddingTop=&#34;@dimen/activity_vertical_margin&#34;
-   tools:context=&#34;com.google.firebase.codelab.friendlychat.MainActivity&#34;&gt;</code></pre>
-<h3>Add AdView to main layout</h3>
-<p>Include the view that will contain the ad. In your <code>activity_main.xml</code> file inside the root <code>RelativeLayout</code> add the following <code>AdView</code> tag.</p>
-<h3>activity_main.xml</h3>
-<pre><code>&lt;com.google.android.gms.ads.AdView
-   android:id=&#34;@+id/adView&#34;
-   android:layout_width=&#34;wrap_content&#34;
-   android:layout_height=&#34;wrap_content&#34;
-   android:layout_centerHorizontal=&#34;true&#34;
-   android:layout_alignParentTop=&#34;true&#34;
-   ads:adSize=&#34;BANNER&#34;
-   ads:adUnitId=&#34;@string/banner_ad_unit_id&#34;&gt;
-&lt;/com.google.android.gms.ads.AdView&gt;</code></pre>
-<p>Update <code>RecyclerView</code> element to be laid out below the <code>AdView</code>, <code>RecyclerView</code> should now look like this:</p>
-<h3>activity_main.xml</h3>
-<pre><code>&lt;android.support.v7.widget.RecyclerView
-   android:id=&#34;@+id/messageRecyclerView&#34;
-   android:layout_width=&#34;match_parent&#34;
-   android:layout_height=&#34;match_parent&#34;
-   android:layout_below=&#34;@+id/adView&#34;
-   android:layout_above=&#34;@+id/linearLayout&#34;/&gt;</code></pre>
-<h3>Add AdView variable</h3>
-<p>In the <code>MainActivity</code> add an instance variable that represents the <code>AdView</code>:</p>
-<h3>MainActivity.java</h3>
-<pre><code>private AdView mAdView;</code></pre>
-<h3>Request Ad</h3>
-<p>In <code>MainActivity</code> in the <code>onCreate</code> method request the ad to be placed in the <code>AdView</code>:</p>
-<h3>MainActivity.java</h3>
-<pre><code>mAdView = (AdView) findViewById(R.id.adView);
-AdRequest adRequest = new AdRequest.Builder().build();
-mAdView.loadAd(adRequest);</code></pre>
-<h3>Handle lifecycle events</h3>
-<p>In <code>MainActivity</code> add <code>Activity</code> lifecycle event handling, pausing, resuming and destroying where necessary.</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-public void onPause() {
-   if (mAdView != null) {
-       mAdView.pause();
-   }
-   super.onPause();
-}
-
-/** Called when returning to the activity */
-@Override
-public void onResume() {
-   super.onResume();
-   if (mAdView != null) {
-       mAdView.resume();
-   }
-}
-
-/** Called before the activity is destroyed */
-@Override
-public void onDestroy() {
-   if (mAdView != null) {
-       mAdView.destroy();
-   }
-   super.onDestroy();
-}</code></pre>
-<h3>Test AdMob</h3>
-<ol type="1" start="1">
-<li>Click the <img style="max-width: 20.00px" src="img/74540ff4e857014c.png"><strong>Run</strong> button.</li>
-<li>Verify that Test Ad shows as in the screenshot above.</li>
-</ol>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Report Crashes" duration="1">
-        <p>Firebase Crash allows your application to report when crashes occur and log the events leading up to the crash.</p>
-<h3>Add Firebase Crash dependency</h3>
-<p>Confirm the <code>firebase-crash</code> dependency exists in your <code>app/build.gradle</code> file:</p>
-<h3>app/build.gradle</h3>
-<pre><code>compile &#39;com.google.firebase:firebase-crash:10.0.0&#39;</code></pre>
-<h3>Initiate crash</h3>
-<p>Add a handler for clicks on the Cause Crash menu item. Update the onOptionsItemSelected method in MainActivity so that it now looks like the code below:</p>
-<h3>MainActivity.java</h3>
-<pre><code>@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-   switch (item.getItemId()) {
-       case R.id.crash_menu:
-           FirebaseCrash.logcat(Log.ERROR, TAG, &#34;crash caused&#34;);
-           causeCrash();
-           return true;
-       case R.id.invite_menu:
-           sendInvitation();
-           return true;
-       case R.id.fresh_config_menu:
-           fetchConfig();
-           return true;
-       case R.id.sign_out_menu:
-           mFirebaseAuth.signOut();
-           mUsername = ANONYMOUS;
-           startActivity(new Intent(this, SignInActivity.class));
-           return true;
-              default:
-           return super.onOptionsItemSelected(item);
-   }
-}</code></pre>
-<h3>Add causeCrash method</h3>
-<p>In the <code>MainActivity</code> add the causeCrash method below.</p>
-<h3>MainActivity.java</h3>
-<pre><code>private void causeCrash() {
-   throw new NullPointerException(&#34;Fake null pointer exception&#34;);
-}</code></pre>
-<h3>Test Firebase Crash</h3>
-<ol type="1" start="1">
-<li>Click the <img style="max-width: 20.00px" src="img/74540ff4e857014c.png"><strong>Run</strong> button.</li>
-<li>Verify that the Cause Crash menu item is available from the overflow menu.</li>
-<li>Verify that when Cause Crash is selected the application crashes.</li>
-<li>From the logcat verify that the crash report was successfully uploaded.</li>
-</ol>
-<ul>
-<li>If you do not see logs indicating that the crash report was sent, make sure that the Android Studio logcat filter is set to No Filters.</li>
-</ul>
-<p>Now you know how to automatically report crashes in your application. Well done!</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Test Your App (in the cloud!)" duration="10">
-        <p>Firebase Test Lab lets you test your app on various types of Android devices across multiple API levels and locales. The best part is that all this testing happens automatically in the cloud without you needing to maintain a collection of test devices.</p>
-<h3>Upgrade your Firebase project to Blaze</h3>
-<p>Firebase Test Lab for Android requires that you upgrade your Firebase project to the <a href="https://firebase.google.com/pricing/" target="_blank">Blaze (Pay as you go) </a>plan. You may skip this step if you wish to remain on the Free plan. Follow <a href="https://firebase.google.com/docs/test-lab/overview#billing" target="_blank">these instructions</a> to upgrade your plan.</p>
-<h3>Add an Espresso instrumentation test case</h3>
-<p>First we need to add an instrumentation test that we will run on Firebase Test Lab. In the MainActivityEspressoTest.java file, add the following test case method to the class.</p>
-<h3>MainActivityEspressoTest.java</h3>
-<pre><code>@Test
-    public void verifySignUpButtonDisplayed() {
-        onView(ViewMatchers.withId(R.id.sign_in_button)).check(matches(isDisplayed()));
-    }
-</code></pre>
-<h3>Create a new run configuration for testing</h3>
-<p>Click <strong>app</strong> &gt; <strong>Edit Configurations...<br></strong><img style="max-width: 360.00px" src="img/3994831846cf93dd.png"></p>
-<p>In the <strong>Configurations</strong> window, click the plus (+) button, choose <strong>Android Tests </strong>to create a new test configuration.</p>
-<h3>Set up the run configuration to run tests on Firebase Test Lab</h3>
-<p>In the <strong>Configurations</strong> window, set up the new run configuration as follows:</p>
-<ol type="1" start="1">
-<li><strong>Name:</strong> FriendlyChat Test</li>
-<li><strong>Module:</strong> app</li>
-<li><strong>Test:</strong> Class</li>
-<li><strong>Class:</strong> com.google.firebase.codelab.friendlychat.MainActivityEspressoTest</li>
-<li>In Deployment Target Options, on the <strong>Target</strong> menu, choose <strong>Cloud Test Lab Device Matrix</strong>. If you are not logged in, click <strong>Connect to Google Cloud Platform</strong> to connect to Firebase Test Lab.<br>Under <strong>Cloud project:</strong>, click the <img style="max-width: 31.00px" src="img/22d6a93f16e73ddc.png"> icon and select your Google Cloud Platform project from the list.<br><img style="max-width: 590.38px" src="img/2a10f57d671521d6.png"></li>
-</ol>
-<h3>Configure your test matrix to select test devices</h3>
-<p>Android Studio includes a <strong>Sample configuration </strong>that automatically configures a test matrix consisting of several widely-used devices and platform versions. To use the Sample configuration, choose it from the   <em>Matrix configuration</em> list and then proceed to step 2 below. To create your own test matrix and select specific devices, platform versions, and locales, complete the optional first step below.</p>
-<ol type="1" start="1">
-<li>(<strong>Optional</strong>) If you want to select a custom matrix of test device configurations, perform the following steps:</li>
-</ol>
-<ol type="1" start="1">
-<li>Click the ellipsis <img style="max-width: 26.00px" src="img/c13f0095b7fc5898.png"> next to <em>Matrix Configuration</em> to open the <em>Matrix Configurations </em>dialog (below).</li>
-<li>Click the <strong>Add New Configuration</strong> icon <img style="max-width: 27.00px" src="img/9181dffb66a8989b.png"> to add a new Matrix, then configure the new Matrix as follows:</li>
-</ol>
-<ol type="1" start="1">
-<li>Enter a name for your new configuration in the <strong>Name</strong> field.</li>
-<li>Select the devices, Android versions, locales and screen orientations that you want to test your app with. For example, choose any device, a locale, and the latest 2-3 API levels.</li>
-<li>Click <strong>OK</strong> to save your configuration - It should be automatically selected in the &#34;Choose Device&#34; dialog.</li>
-</ol>
-<ol type="1" start="1">
-<li>Click <strong>OK</strong> on the <strong>Run/Debug Configurations</strong> dialog to exit.</li>
-</ol>
-<h3>Run the new run configuration and verify results</h3>
-<ol type="1" start="1">
-<li>Click on the <strong>Run</strong> button <img style="max-width: 22.00px" src="img/d8437c6a90d5b286.png"> to test your app with the selected configuration. The project will build and automatically run the test on each device in the test matrix in the cloud.</li>
-<li>After a few minutes, the test results will be displayed in Android Studio. The results of all test runs can also be viewed on the web in the <strong>Test Lab </strong>section of your project&#39;s Firebase Console, as shown in the figure below.<br><img style="max-width: 624.00px" src="img/a126b2af42ee055.png"><br>Figure: Firebase Test Lab results in Android Studio<br><img style="max-width: 624.00px" src="img/bcb1c90697c39c48.png"><br>Figure: Firebase Test Lab results in the Firebase Console</li>
-</ol>
-<aside class="special"><p><strong><code>Note</code></strong><code>: In the </code><strong><code>Run </code></strong><code>window, ensure that both the </code><strong><code>Show passed </code></strong><code>and </code><strong><code>Show ignored</code></strong><code> icons are selected to see both successful test results and device configurations that were not run due to device/platform incompatibility.</code></p>
-<p><img style="max-width: 241.50px" src="img/86b465a5f1dc7bc2.png"></p>
-</aside>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Congratulations!" duration="0">
-        <p>You have used Firebase to easily build a real-time chat application.</p>
-<h3 class="checklist">What we&#39;ve covered</h3>
-<ul class="checklist">
-<li>Firebase Authentication</li>
-<li>Firebase Realtime Database</li>
-<li>Firebase Cloud Messaging</li>
-<li>Firebase Remote Config</li>
-<li>Firebase Analytics</li>
-<li>Firebase App Invites</li>
-<li>Monetizing with AdMob</li>
-<li>Firebase Crash Reporting</li>
-<li>Firebase Test Lab for Android</li>
-</ul>
-<h3>Next Steps</h3>
-<ul>
-<li>Use Firebase in your own Android app.</li>
-</ul>
-<h3>Learn More</h3>
-<ul>
-<li><a href="https://firebase.google.com" target="_blank">firebase.google.com</a></li>
-</ul>
-
-
-      </google-codelab-step>
-    
-  </google-codelab>
-
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-49880327-14', 'auto');
-
-    (function() {
-      var gaCodelab = '';
-      if (gaCodelab) {
-        ga('create', gaCodelab, 'auto', {name: 'codelab'});
-      }
-
-      var gaView;
-      var parts = location.search.substring(1).split('&');
-      for (var i = 0; i < parts.length; i++) {
-        var param = parts[i].split('=');
-        if (param[0] === 'viewga') {
-          gaView = param[1];
-          break;
-        }
-      }
-      if (gaView && gaView !== gaCodelab) {
-        ga('create', gaView, 'auto', {name: 'view'});
-      }
-    })();
-  </script>
+            var gaView;
+            var parts = location.search.substring(1).split('&');
+            for (var i = 0; i < parts.length; i++) {
+                var param = parts[i].split('=');
+                if (param[0] === 'viewga') {
+                    gaView = param[1];
+                    break;
+                }
+            }
+            if (gaView && gaView !== gaCodelab) {
+                ga('create', gaView, 'auto', {
+                    name: 'view'
+                });
+            }
+        })();
+    </script>
 
 </body>
+
 </html>
